@@ -1,0 +1,318 @@
+/* ============================================================
+   MTG Bracket Checker — Style Sheet
+   Dark theme matching MTGBoardState CSS variable conventions
+   ============================================================ */
+
+:root {
+    --bg-color:      #1e1e1e;
+    --card-bg:       #2d2d2d;
+    --text-main:     #e0e0e0;
+    --text-muted:    #a0a0a0;
+    --accent:        #64b5f6;
+    --accent-hover:  #42a5f5;
+    --border:        #444;
+    --success:       #66bb6a;
+    --danger:        #ef5350;
+    --warning:       #ffa726;
+
+    /* Bracket colours */
+    --bracket1-color: #66bb6a;
+    --bracket2-color: #26a69a;
+    --bracket3-color: #ffa726;
+    --bracket4-color: #ef5350;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base ── */
+body {
+    background: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+code {
+    background: #373737;
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 0.9em;
+}
+
+/* ── Header ── */
+header {
+    background: #252525;
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    text-align: center;
+}
+header h1 {
+    font-size: 1.9rem;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+}
+.subtitle {
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-size: 0.9rem;
+}
+
+/* ── Main Layout ── */
+main {
+    flex: 1;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 28px 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+/* ── Card ── */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+}
+.card h2 {
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+.card h3 {
+    font-size: 1rem;
+    color: var(--accent);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* ── Import Section ── */
+#import-section { max-width: 800px; align-self: center; width: 100%; }
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+.input-group label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+.label-note {
+    font-weight: 400;
+    color: #888;
+}
+
+textarea, input[type="text"] {
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 10px 12px;
+    resize: vertical;
+    transition: border-color 0.15s;
+    width: 100%;
+}
+textarea:focus, input[type="text"]:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+textarea { min-height: 220px; }
+
+.import-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+    background: var(--accent);
+    border: none;
+    border-radius: 5px;
+    color: #111;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 10px 28px;
+    transition: background 0.15s, opacity 0.15s;
+}
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--accent);
+    border-radius: 5px;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+.btn-secondary:hover:not(:disabled) { background: rgba(100, 181, 246, 0.1); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Status Messages ── */
+.status-msg {
+    font-size: 0.85rem;
+}
+.status-msg.success { color: var(--success); }
+.status-msg.error   { color: var(--danger); }
+
+/* ── Results Section ── */
+#results-section h2 {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 18px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+}
+
+.result-card { align-self: start; }
+
+/* ── Bracket Assessment Card ── */
+.bracket-badge {
+    display: inline-block;
+    border-radius: 6px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    padding: 10px 22px;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+}
+
+.bracket-badge.bracket12  { background: rgba(102,187,106,0.18); color: var(--bracket1-color); border: 1px solid var(--bracket1-color); }
+.bracket-badge.bracket3   { background: rgba(255,167,38,0.18);  color: var(--bracket3-color); border: 1px solid var(--bracket3-color); }
+.bracket-badge.bracket34  { background: rgba(239,83,80,0.12);   color: var(--bracket4-color); border: 1px solid var(--bracket4-color); }
+.bracket-badge.bracket4   { background: rgba(239,83,80,0.18);   color: var(--bracket4-color); border: 1px solid var(--bracket4-color); }
+
+.bracket-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+.bracket-desc {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+/* ── Card Lists (GC / Notable) ── */
+.gc-count, .notable-category {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+.notable-category { margin-top: 14px; }
+.notable-category:first-child { margin-top: 0; }
+
+.card-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+.card-list li {
+    font-size: 0.88rem;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 4px;
+    border-left: 3px solid var(--accent);
+}
+.card-list li a {
+    color: var(--text-main);
+}
+.card-list li a:hover { color: var(--accent); }
+
+.none-found {
+    color: var(--success);
+    font-size: 0.88rem;
+}
+
+/* ── EDHREC Rankings Card ── */
+.rankings-table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+.rank-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 0.88rem;
+}
+.rank-label { color: var(--text-muted); }
+.rank {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1rem;
+}
+.unranked { color: var(--text-muted); font-style: italic; }
+
+.cache-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+.edhrec-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* ── Utility ── */
+.hidden { display: none !important; }
+.text-muted { color: var(--text-muted); font-size: 0.85rem; }
+
+/* ── Footer ── */
+footer {
+    background: #252525;
+    border-top: 1px solid var(--border);
+    padding: 14px 32px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+    header { padding: 16px; }
+    main { padding: 16px 12px; }
+    .card { padding: 16px; }
+    .results-grid { grid-template-columns: 1fr; }
+    .bracket-badge { font-size: 1.2rem; padding: 8px 16px; }
+}

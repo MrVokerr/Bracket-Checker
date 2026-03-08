@@ -1,0 +1,28 @@
+name = "bracket-checker-cron"
+compatibility_date = "2026-01-14"
+main = "worker.js"
+
+# ── Cron Trigger ──────────────────────────────────────────────────────────────
+# Runs at 3:00 AM UTC every day.
+# Adjust the cron expression if you prefer a different time.
+[triggers]
+crons = ["0 3 * * *"]
+
+# ── KV Namespace ──────────────────────────────────────────────────────────────
+# MUST be the same namespace ID as in the parent wrangler.toml.
+# Both the Pages site and this Worker share the same KV store.
+#
+# Create once:  npx wrangler kv namespace create EDHREC_RANKINGS
+# Then paste the returned id here AND in ../wrangler.toml.
+
+[[kv_namespaces]]
+binding = "EDHREC_RANKINGS"
+id      = "49b8501699a44ed3875fd063ec528216"
+
+# ── Deploy ────────────────────────────────────────────────────────────────────
+# cd cron_worker
+# npx wrangler deploy
+#
+# Test the scheduled handler locally:
+# npx wrangler dev --test-scheduled
+# Then trigger:  curl "http://localhost:8787/__scheduled?cron=0+3+*+*+*"

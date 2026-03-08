@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTG Bracket Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>MTG Bracket Checker</h1>
+        <p class="subtitle">Analyze your Commander deck for Game Changers and EDHREC rankings</p>
+    </header>
+
+    <main>
+        <!-- Import Section -->
+        <section class="card" id="import-section">
+            <h2>Import Deck</h2>
+
+            <div class="input-group">
+                <label for="deckInput">Paste decklist or Moxfield / Archidekt URL:</label>
+                <textarea id="deckInput" rows="12" placeholder="Paste your decklist here, e.g.:
+1 Sol Ring
+1 Rhystic Study
+1 Cyclonic Rift
+...
+
+Or paste a URL:
+https://www.moxfield.com/decks/...
+https://archidekt.com/decks/..."></textarea>
+            </div>
+
+            <div class="import-row">
+                <button id="importUrlBtn" class="btn-secondary">Import from URL</button>
+                <span id="importStatus" class="status-msg"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="commanderInput">Commander Name <span class="label-note">(for EDHREC rankings)</span>:</label>
+                <input type="text" id="commanderInput" placeholder="e.g. Atraxa, Praetors' Voice" autocomplete="off" />
+            </div>
+
+            <button id="analyzeBtn" class="btn-primary">Analyze Deck</button>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="hidden">
+            <h2>Analysis Results</h2>
+            <div class="results-grid">
+
+                <div class="card result-card" id="bracket-card">
+                    <h3>Bracket Assessment</h3>
+                    <div id="bracket-display"></div>
+                </div>
+
+                <div class="card result-card" id="gc-card">
+                    <h3>Game Changers Found</h3>
+                    <div id="gc-display"></div>
+                </div>
+
+                <div class="card result-card" id="notable-card">
+                    <h3>Notable Fast Mana &amp; Stax</h3>
+                    <div id="notable-display"></div>
+                </div>
+
+                <div class="card result-card" id="edhrec-card">
+                    <h3>EDHREC Rankings</h3>
+                    <div id="edhrec-display"></div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Game Changers list sourced from Scryfall (<code>is:gamechanger</code>). EDHREC data cached daily.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

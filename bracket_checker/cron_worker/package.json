@@ -1,0 +1,11 @@
+{
+  "name": "bracket-checker-cron",
+  "version": "1.0.0",
+  "description": "Scheduled Worker — fetches EDHREC rankings daily and writes to KV",
+  "scripts": {
+    "deploy": "npx wrangler deploy",
+    "dev":    "npx wrangler dev --test-scheduled"
+  },
+  "keywords": ["mtg", "edhrec", "cloudflare-worker"],
+  "license": "MIT"
+}

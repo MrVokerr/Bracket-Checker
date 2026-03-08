@@ -1,0 +1,22 @@
+name = "bracket-checker"
+compatibility_date = "2026-01-14"
+pages_build_output_dir = "./dist"
+
+# ── KV Namespace ──────────────────────────────────────────────────────────────
+# This Pages project reads EDHREC rankings written by the cron_worker.
+# Steps to create the namespace:
+#   1. Log in:  npx wrangler login
+#   2. Create:  npx wrangler kv namespace create EDHREC_RANKINGS
+#   3. Copy the returned id and paste it below (both here and in cron_worker/wrangler.toml)
+#
+# Preview namespace (optional, for wrangler pages dev):
+#   npx wrangler kv namespace create EDHREC_RANKINGS --preview
+#   Replace preview_id below with the returned id.
+
+[[kv_namespaces]]
+binding    = "EDHREC_RANKINGS"
+id         = "49b8501699a44ed3875fd063ec528216"
+# preview_id = "YOUR_KV_PREVIEW_NAMESPACE_ID_HERE"
+
+# Cloudflare Pages automatically detects and deploys the functions/ folder.
+# No additional [build] or [[rules]] config is required.
