@@ -2,7 +2,7 @@
 
 A web tool for analyzing Commander decks against the official Magic: The Gathering bracket system. Paste a decklist or import directly from Moxfield or Archidekt to instantly see your deck's Game Changers, fast mana, stax pieces, and EDHREC popularity rankings.
 
-**Live site:** https://bracket-checker.pages.dev
+**Live site:** <https://bracket-checker.pages.dev>
 
 ---
 
@@ -20,9 +20,11 @@ A web tool for analyzing Commander decks against the official Magic: The Gatheri
 ## How It Works
 
 ### Frontend
+
 A single-page app (`index.html` + `script.js`) with no framework dependencies. All card-checking logic runs client-side.
 
 ### Backend (Cloudflare Pages Functions)
+
 Two serverless API routes in `functions/api/`:
 
 | Route | Purpose |
@@ -31,6 +33,7 @@ Two serverless API routes in `functions/api/`:
 | `/api/rankings` | Reads commander rankings from a Cloudflare KV namespace |
 
 ### Cron Worker (`cron_worker/`)
+
 A separate Cloudflare Worker that runs at **3 AM UTC daily**. It scrapes EDHREC's top 100 commanders per timeframe (past week, past month, past 2 years) and writes them to KV. The Pages Functions then serve this cached data to users.
 
 ```
@@ -73,7 +76,7 @@ npm install
 node local_server.js
 ```
 
-Then open http://localhost:8080. Note: EDHREC rankings require a deployed KV namespace and won't work locally without additional setup.
+Then open <http://localhost:8080>. Note: EDHREC rankings require a deployed KV namespace and won't work locally without additional setup.
 
 ---
 
@@ -88,25 +91,31 @@ Then open http://localhost:8080. Note: EDHREC rankings require a deployed KV nam
 ### First-time setup
 
 **1. Log in to Cloudflare:**
+
 ```bash
 npx wrangler login
 ```
 
 **2. Create the KV namespace:**
+
 ```bash
 npx wrangler kv namespace create EDHREC_RANKINGS
 ```
+
 Copy the returned `id` and paste it into both `wrangler.toml` files:
+
 - `bracket_checker/wrangler.toml`
 - `bracket_checker/cron_worker/wrangler.toml`
 
 **3. Build and deploy the Pages site:**
+
 ```bash
 node build.js
 npx wrangler pages deploy dist --project-name=bracket-checker --branch=production
 ```
 
 **4. Deploy the cron Worker:**
+
 ```bash
 cd cron_worker
 npm install
@@ -114,6 +123,7 @@ npx wrangler deploy
 ```
 
 **5. Seed the KV with initial data** (the cron runs at 3 AM UTC, so seed manually first):
+
 ```bash
 # Trigger the worker's scheduled handler
 npx wrangler dev --remote --test-scheduled
