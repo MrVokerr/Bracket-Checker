@@ -65,8 +65,15 @@
             } else {
                 return new Response(JSON.stringify({ error: "Unsupported site. Currently supports Moxfield and Archidekt." }), { status: 400, headers: corsHeaders });
             }
-            const cmdrMatch = deckListText.match(/^Commander\n\d+[xX]?\s+(.+)$/m);
-            const commander = cmdrMatch ? cmdrMatch[1].replace(/\s*\([A-Za-z0-9]{2,6}\)\s*\d*/g,'').split(' // ')[0].trim() : null;
+            const cmdrSectionMatch = deckListText.match(/Commander\n([\s\S]+?)\n\n/);
+            const commanders = [];
+            if (cmdrSectionMatch) {
+                for (const line of cmdrSectionMatch[1].trim().split('\n')) {
+                    const name = line.replace(/^\d+[xX]?\s+/, '').replace(/\s*\([A-Za-z0-9]{2,6}\)\s*\d*/g, '').split(' // ')[0].trim();
+                    if (name) commanders.push(name);
+                }
+            }
+            const commander = commanders.length > 0 ? commanders.join(' & ') : null;
             return new Response(JSON.stringify({ name: deckName, list: deckListText, commander }), { status: 200, headers: corsHeaders });
         } catch (error) {
             return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: corsHeaders });

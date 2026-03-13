@@ -171,6 +171,7 @@ function parseName(raw) {
 function detectCommander(text) {
     const lines = text.trim().split('\n');
     let inCommanderSection = false;
+    const found = [];
     const allSections = new Set([
         'commander', 'commanders', 'companion', 'sideboard', 'maybeboard',
         'mainboard', 'deck', 'creatures', 'planeswalkers', 'instants',
@@ -183,7 +184,7 @@ function detectCommander(text) {
 
         // MTGO *CMDR* marker: "1 Atraxa, Praetors' Voice *CMDR*"
         const mtgoMatch = raw.match(/^\d+[xX]?\s+(.+?)\s+\*CMDR\*\s*$/i);
-        if (mtgoMatch) return parseName(mtgoMatch[1]);
+        if (mtgoMatch) { found.push(parseName(mtgoMatch[1])); continue; }
 
         // Determine if this line is a section header.
         // Both "Commander" (Moxfield) and "// Commander (1)" (Archidekt) are valid.
@@ -199,10 +200,13 @@ function detectCommander(text) {
         // Skip other comment/slash lines that aren't recognised section headers
         if (isSlashLine || isHashLine) continue;
 
-        // Card line — if inside the Commander section, this is our commander
-        if (inCommanderSection) return parseName(raw);
+        // Card line — if inside the Commander section, collect it
+        if (inCommanderSection) {
+            const name = parseName(raw);
+            if (name) found.push(name);
+        }
     }
-    return null;
+    return found.length > 0 ? found.join(' & ') : null;
 }
 
 // ── Cross-Reference Checks ──────────────────────────────────────────────────
@@ -351,11 +355,17 @@ function renderEDHREC(rankings, commanderName) {
     const anyUnranked = [rankings.pastweek, rankings.pastmonth, rankings.past2years]
         .some(r => typeof r !== 'number');
 
-    // Build slug for EDHREC link
-    const slug = commanderName.toLowerCase()
-        .replace(/[',]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-|-$/g, '');
+    // Build slug for EDHREC link — handles partner commanders joined with ' & '
+    // Partners: each name is slugified, then slugs are sorted alphabetically and joined with '-'
+    // e.g. "Ardenn, Intrepid Archaeologist & Rograkh, Son of Rohgahh"
+    //   → "ardenn-intrepid-archaeologist-rograkh-son-of-rohgahh"
+    const slug = commanderName.split(' & ')
+        .map(n => n.toLowerCase()
+            .replace(/[',]/g, '')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-|-$/g, ''))
+        .sort()
+        .join('-');
 
     el.innerHTML = `
         <div class="rankings-table">

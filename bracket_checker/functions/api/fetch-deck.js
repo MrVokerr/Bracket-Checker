@@ -109,9 +109,16 @@ export async function onRequest(context) {
             });
         }
 
-        // Detect commander from the structured list we just built
-        const cmdrMatch = deckListText.match(/^Commander\n\d+[xX]?\s+(.+)$/m);
-        const commander = cmdrMatch ? cmdrMatch[1].replace(/\s*\([A-Za-z0-9]{2,6}\)\s*\d*/g, '').split(' // ')[0].trim() : null;
+        // Detect all commanders from the structured list (handles partner commanders)
+        const commanderSectionMatch = deckListText.match(/Commander\n([\s\S]+?)\n\n/);
+        const commanders = [];
+        if (commanderSectionMatch) {
+            for (const line of commanderSectionMatch[1].trim().split('\n')) {
+                const name = line.replace(/^\d+[xX]?\s+/, '').replace(/\s*\([A-Za-z0-9]{2,6}\)\s*\d*/g, '').split(' // ')[0].trim();
+                if (name) commanders.push(name);
+            }
+        }
+        const commander = commanders.length > 0 ? commanders.join(' & ') : null;
 
         return new Response(JSON.stringify({ name: deckName, list: deckListText, commander }), {
             status: 200,
